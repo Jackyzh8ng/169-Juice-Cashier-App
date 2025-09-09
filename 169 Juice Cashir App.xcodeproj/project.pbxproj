@@ -6,6 +6,14 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		9B8685AB2E70CE4600486774 /* _69_Juice_Cashir_AppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B8685AA2E70CE4600486774 /* _69_Juice_Cashir_AppApp.swift */; };
+		9B8685E02E70D19E00486774 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B8685DF2E70D00E00486774 /* HomeView.swift */; };
+		9B8685E22E70D41100486774 /* StatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B8685E12E70D40C00486774 /* StatsView.swift */; };
+		9B8685E52E70E18000486774 /* FlavourSelect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B8685E42E70E17D00486774 /* FlavourSelect.swift */; };
+		9B8685E62E70E24800486774 /* Order.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B8685E32E70DBF700486774 /* Order.swift */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		9B8685B82E70CE4700486774 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -25,8 +33,13 @@
 
 /* Begin PBXFileReference section */
 		9B8685A72E70CE4600486774 /* 169 Juice Cashir App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "169 Juice Cashir App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9B8685AA2E70CE4600486774 /* _69_Juice_Cashir_AppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = _69_Juice_Cashir_AppApp.swift; sourceTree = "<group>"; };
 		9B8685B72E70CE4700486774 /* 169 Juice Cashir AppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "169 Juice Cashir AppTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9B8685C12E70CE4700486774 /* 169 Juice Cashir AppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "169 Juice Cashir AppUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9B8685DF2E70D00E00486774 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		9B8685E12E70D40C00486774 /* StatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsView.swift; sourceTree = "<group>"; };
+		9B8685E32E70DBF700486774 /* Order.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Order.swift; sourceTree = "<group>"; };
+		9B8685E42E70E17D00486774 /* FlavourSelect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlavourSelect.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -75,6 +88,10 @@
 		9B86859E2E70CE4600486774 = {
 			isa = PBXGroup;
 			children = (
+				9B8685DE2E70CFCE00486774 /* Services */,
+				9B8685DD2E70CFC800486774 /* Models */,
+				9B8685DC2E70CFBE00486774 /* Screens */,
+				9B8685DA2E70CFB000486774 /* App */,
 				9B8685A92E70CE4600486774 /* 169 Juice Cashir App */,
 				9B8685BA2E70CE4700486774 /* 169 Juice Cashir AppTests */,
 				9B8685C42E70CE4700486774 /* 169 Juice Cashir AppUITests */,
@@ -90,6 +107,39 @@
 				9B8685C12E70CE4700486774 /* 169 Juice Cashir AppUITests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		9B8685DA2E70CFB000486774 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				9B8685AA2E70CE4600486774 /* _69_Juice_Cashir_AppApp.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		9B8685DC2E70CFBE00486774 /* Screens */ = {
+			isa = PBXGroup;
+			children = (
+				9B8685E42E70E17D00486774 /* FlavourSelect.swift */,
+				9B8685E12E70D40C00486774 /* StatsView.swift */,
+				9B8685DF2E70D00E00486774 /* HomeView.swift */,
+			);
+			path = Screens;
+			sourceTree = "<group>";
+		};
+		9B8685DD2E70CFC800486774 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				9B8685E32E70DBF700486774 /* Order.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		9B8685DE2E70CFCE00486774 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Services;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -236,6 +286,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9B8685E62E70E24800486774 /* Order.swift in Sources */,
+				9B8685E22E70D41100486774 /* StatsView.swift in Sources */,
+				9B8685E02E70D19E00486774 /* HomeView.swift in Sources */,
+				9B8685E52E70E18000486774 /* FlavourSelect.swift in Sources */,
+				9B8685AB2E70CE4600486774 /* _69_Juice_Cashir_AppApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
