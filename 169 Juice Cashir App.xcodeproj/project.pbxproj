@@ -19,6 +19,10 @@
 		9B8685F22E71F62A00486774 /* BuildDrinkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B8685F12E71F62700486774 /* BuildDrinkView.swift */; };
 		9B8685F42E71FDB300486774 /* AddOnsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B8685F32E71FDAE00486774 /* AddOnsScreen.swift */; };
 		9B8685F72E7200A200486774 /* GoToCheckoutEnv.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B8685F62E72009900486774 /* GoToCheckoutEnv.swift */; };
+		9B8685FD2E72256500486774 /* PaymentMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B8685FC2E72256000486774 /* PaymentMethod.swift */; };
+		9B8685FF2E72257E00486774 /* FestivalWeek.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B8685FE2E72257900486774 /* FestivalWeek.swift */; };
+		9B8686012E7225A200486774 /* Sale.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B8686002E7225A000486774 /* Sale.swift */; };
+		9B8686042E7225F800486774 /* SalesStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B8686032E7225F500486774 /* SalesStore.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,6 +58,10 @@
 		9B8685F12E71F62700486774 /* BuildDrinkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuildDrinkView.swift; sourceTree = "<group>"; };
 		9B8685F32E71FDAE00486774 /* AddOnsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddOnsScreen.swift; sourceTree = "<group>"; };
 		9B8685F62E72009900486774 /* GoToCheckoutEnv.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoToCheckoutEnv.swift; sourceTree = "<group>"; };
+		9B8685FC2E72256000486774 /* PaymentMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentMethod.swift; sourceTree = "<group>"; };
+		9B8685FE2E72257900486774 /* FestivalWeek.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FestivalWeek.swift; sourceTree = "<group>"; };
+		9B8686002E7225A000486774 /* Sale.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sale.swift; sourceTree = "<group>"; };
+		9B8686032E7225F500486774 /* SalesStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SalesStore.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -111,6 +119,7 @@
 				9B8685BA2E70CE4700486774 /* 169 Juice Cashir AppTests */,
 				9B8685C42E70CE4700486774 /* 169 Juice Cashir AppUITests */,
 				9B8685A82E70CE4600486774 /* Products */,
+				9B8686022E7225CD00486774 /* Data */,
 			);
 			sourceTree = "<group>";
 		};
@@ -169,6 +178,17 @@
 			children = (
 			);
 			path = "New Group";
+			sourceTree = "<group>";
+		};
+		9B8686022E7225CD00486774 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				9B8686032E7225F500486774 /* SalesStore.swift */,
+				9B8685FE2E72257900486774 /* FestivalWeek.swift */,
+				9B8686002E7225A000486774 /* Sale.swift */,
+				9B8685FC2E72256000486774 /* PaymentMethod.swift */,
+			);
+			path = Data;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -315,15 +335,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9B8686042E7225F800486774 /* SalesStore.swift in Sources */,
 				9B8685E62E70E24800486774 /* Order.swift in Sources */,
 				9B8685E22E70D41100486774 /* StatsView.swift in Sources */,
 				9B8685EE2E71EDAA00486774 /* OrderItem.swift in Sources */,
+				9B8685FD2E72256500486774 /* PaymentMethod.swift in Sources */,
 				9B8685F02E71EE0A00486774 /* CartStore.swift in Sources */,
 				9B8685E82E71CD9700486774 /* AddOnsView.swift in Sources */,
 				9B8685F72E7200A200486774 /* GoToCheckoutEnv.swift in Sources */,
 				9B8685E02E70D19E00486774 /* HomeView.swift in Sources */,
 				9B8685F42E71FDB300486774 /* AddOnsScreen.swift in Sources */,
 				9B8685F22E71F62A00486774 /* BuildDrinkView.swift in Sources */,
+				9B8686012E7225A200486774 /* Sale.swift in Sources */,
+				9B8685FF2E72257E00486774 /* FestivalWeek.swift in Sources */,
 				9B8685E52E70E18000486774 /* FlavourSelectView.swift in Sources */,
 				9B8685EC2E71D96900486774 /* CheckOutView.swift in Sources */,
 				9B8685AB2E70CE4600486774 /* _69_Juice_Cashir_AppApp.swift in Sources */,
