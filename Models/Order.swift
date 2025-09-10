@@ -8,13 +8,15 @@
 import Foundation
 
 struct Order: Identifiable, Codable, Hashable {
-    var id: UUID = UUID()                 // unique ID
+    var id: UUID = UUID()
+    var drinks: [Drink]
+    var timestamp: Date = Date()
+}
+struct Drink: Codable, Hashable {
     var selection: [Flavour]       // single or 50/50 mix
     var cupType: CupType                  // cup / pshell / wshell
-    var addOns: [AddOn] = []
-    var quantity: Int = 1
+    var addOns: [AddOn]
     var price: Double
-    var timestamp: Date = Date()
     var flavourList: String {
         selection.map { $0.rawValue.capitalized }.joined(separator: " + ")
     }
@@ -28,6 +30,13 @@ enum CupType: String, Codable, CaseIterable, Hashable {
     case cup, pshell, wshell
 }
 
-enum AddOn: String, Codable, CaseIterable, Hashable {
-    case boba, extraSugar, noIce, proteinBoost
+// Models/AddOn.swift
+
+public enum AddOn: String, Codable, CaseIterable, Hashable {
+    case boba
+    case lessSugar
+    case noSugar
+    case lessIce
+    case noIce
 }
+
