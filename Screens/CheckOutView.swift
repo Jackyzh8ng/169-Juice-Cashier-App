@@ -34,6 +34,12 @@ struct CheckOutView: View {
     /// Provide this from the parent to navigate back to your Home flow.
     var onAddMoreDrinks: (() -> Void)?
 
+    // MARK: ⬇️ Added: Sales store + active week
+    @StateObject private var salesStore = SalesStore.shared
+    @State private var activeWeek: FestivalWeek? = nil
+    @State private var showNewWeekPrompt = false
+    @State private var newWeekLocation = ""
+
     // Card fee: $1.00 per drink EXCEPT Watermelon shell (wshell)
     private var nonWatermelonQuantity: Int {
         cart.items.reduce(0) { partial, item in
@@ -67,7 +73,39 @@ struct CheckOutView: View {
             }
         }
         .navigationTitle("Checkout")
+        .onAppear {
+            // MARK: ⬇️ Added: pick most recent week by default
+            if activeWeek == nil {
+                activeWeek = salesStore.weeks.first
+            }
+        }
         .toolbar {
+            // MARK: ⬇️ Added: Week picker / creator
+            ToolbarItem(placement: .navigationBarLeading) {
+                Menu {
+                    if salesStore.weeks.isEmpty {
+                        Button("Create week…") { showNewWeekPrompt = true }
+                    } else {
+                        Button("All weeks (no tag)") { activeWeek = nil }
+                        Section("Select week") {
+                            ForEach(salesStore.weeks) { fw in
+                                Button("\(fw.locationName) — \(fw.weekStart.formatted(date: .abbreviated, time: .omitted))") {
+                                    activeWeek = fw
+                                }
+                            }
+                        }
+                        Divider()
+                        Button("Create week…") { showNewWeekPrompt = true }
+                    }
+                } label: {
+                    HStack(spacing: 6) {
+                        Image(systemName: "mappin.and.ellipse")
+                        Text(activeWeek?.locationName ?? "No week tag")
+                    }
+                }
+                .accessibilityIdentifier("checkout_week_menu")
+            }
+
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button {
                     onAddMoreDrinks?()
@@ -82,10 +120,7 @@ struct CheckOutView: View {
                     HStack(spacing: 12) {
                         // Cash
                         Button {
-                            let order = cart.makeOrderSnapshot()
-                            print("Order placed (CASH):", order, "Total:", cart.total)
-                            cart.clear()
-                            onAddMoreDrinks?()
+                            commit(payment: .cash)
                         } label: {
                             Text("Cash • \(cart.total.money)")
                                 .fontWeight(.semibold)
@@ -96,10 +131,7 @@ struct CheckOutView: View {
 
                         // Card (+$1 per non-watermelon drink)
                         Button {
-                            let order = cart.makeOrderSnapshot()
-                            print("Order placed (CARD):", order, "Total:", cardTotal, "Surcharge:", cardSurcharge)
-                            cart.clear()
-                            onAddMoreDrinks?()
+                            commit(payment: .card)
                         } label: {
                             Text("Card • \(cardTotal.money)")
                                 .fontWeight(.semibold)
@@ -111,6 +143,40 @@ struct CheckOutView: View {
                 }
             }
         }
+        // MARK: ⬇️ Added: create-week prompt
+        .alert("Create Festival Week", isPresented: $showNewWeekPrompt) {
+            TextField("Location (e.g., CNE Toronto)", text: $newWeekLocation)
+            Button("Create") {
+                let loc = newWeekLocation.trimmingCharacters(in: .whitespacesAndNewlines)
+                guard !loc.isEmpty else { return }
+                let week = salesStore.createWeek(locationName: loc, at: Date())
+                activeWeek = week
+                newWeekLocation = ""
+            }
+            Button("Cancel", role: .cancel) {
+                newWeekLocation = ""
+            }
+        } message: {
+            Text("Name this week by location. We’ll tag all card/cash orders to this week so they show up in Stats.")
+        }
+    }
+
+    // MARK: - Added: Commit sale
+    private func commit(payment: PaymentMethod) {
+        let order = cart.makeOrderSnapshot()
+        // Persist the sale (Sale internally applies $1-per-drink card surcharge except wshell)
+        salesStore.record(order: order, payment: payment, festivalWeek: activeWeek)
+
+        // Optional debug prints
+        if payment == .card {
+            print("Order placed (CARD):", order, "DisplayedTotal:", cardTotal, "DisplayedSurcharge:", cardSurcharge)
+        } else {
+            print("Order placed (CASH):", order, "DisplayedTotal:", cart.total)
+        }
+
+        // Clear cart and return to add flow
+        cart.clear()
+        onAddMoreDrinks?()
     }
 
     // MARK: - Views
