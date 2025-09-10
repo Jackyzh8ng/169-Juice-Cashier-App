@@ -34,12 +34,14 @@ struct CheckOutView: View {
     /// Provide this from the parent to navigate back to your Home flow.
     var onAddMoreDrinks: (() -> Void)?
 
-    // Card fee: $1.00 per drink (quantity-aware)
-    private var totalQuantity: Int {
-        cart.items.reduce(0) { $0 + $1.quantity }
+    // Card fee: $1.00 per drink EXCEPT Watermelon shell (wshell)
+    private var nonWatermelonQuantity: Int {
+        cart.items.reduce(0) { partial, item in
+            partial + (item.drink.cupType == .wshell ? 0 : item.quantity)
+        }
     }
     private let cardFeePerItem: Double = 1.00
-    private var cardSurcharge: Double { Double(totalQuantity) * cardFeePerItem }
+    private var cardSurcharge: Double { Double(nonWatermelonQuantity) * cardFeePerItem }
     private var cardTotal: Double { cart.total + cardSurcharge }
 
     var body: some View {
@@ -52,10 +54,11 @@ struct CheckOutView: View {
                         ForEach(cart.items) { item in
                             ItemRow(
                                 item: item,
-                                onSetQuantity: { qty in cart.setQuantity(qty, for: item.id) }
+                                onSetQuantity: { qty in cart.setQuantity(qty, for: item.id) },
+                                onDelete: { cart.remove(id: item.id) }
                             )
                         }
-                        .onDelete(perform: cart.remove)
+                        .onDelete(perform: cart.remove) // swipe-to-delete still works
                     }
                 }
                 .listStyle(.insetGrouped)
@@ -77,7 +80,7 @@ struct CheckOutView: View {
             if !cart.items.isEmpty {
                 ToolbarItem(placement: .bottomBar) {
                     HStack(spacing: 12) {
-                        // Cash button
+                        // Cash
                         Button {
                             let order = cart.makeOrderSnapshot()
                             print("Order placed (CASH):", order, "Total:", cart.total)
@@ -91,10 +94,10 @@ struct CheckOutView: View {
                         .buttonStyle(.borderedProminent)
                         .accessibilityIdentifier("checkout_cash")
 
-                        // Card button (+$1 per drink surcharge)
+                        // Card (+$1 per non-watermelon drink)
                         Button {
                             let order = cart.makeOrderSnapshot()
-                            print("Order placed (CARD):", order, "Total:", cardTotal)
+                            print("Order placed (CARD):", order, "Total:", cardTotal, "Surcharge:", cardSurcharge)
                             cart.clear()
                             onAddMoreDrinks?()
                         } label: {
@@ -147,7 +150,7 @@ struct CheckOutView: View {
                     .monospacedDigit()
             }
             HStack {
-                Text("Total (Card incl. $1/drink fee)")
+                Text("Total (Card, +$1 each non-Watermelon)")
                 Spacer()
                 Text(cardTotal.money)
                     .font(.headline)
@@ -165,19 +168,32 @@ struct CheckOutView: View {
 private struct ItemRow: View {
     let item: OrderItem
     var onSetQuantity: (Int) -> Void
+    var onDelete: () -> Void
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            // Title: flavours
-            HStack(alignment: .firstTextBaseline) {
+            // Title row: flavours + unit price + delete button
+            HStack(alignment: .firstTextBaseline, spacing: 8) {
                 Text(item.drink.flavourList)
                     .font(.headline)
                     .lineLimit(1)
                     .truncationMode(.tail)
+
                 Spacer()
+
                 Text(item.unitPrice.money)
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
+
+                Button(role: .destructive, action: onDelete) {
+                    Image(systemName: "trash")
+                        .imageScale(.medium)
+                        .font(.body)
+                        .padding(.leading, 4)
+                        .accessibilityLabel("Delete item")
+                }
+                .buttonStyle(.borderless)
+                .accessibilityIdentifier("checkout_delete_\(item.id)")
             }
 
             // Subtitle: cup + add-ons
