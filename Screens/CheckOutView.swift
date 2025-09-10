@@ -4,12 +4,6 @@
 //
 //  Created by Jacky Zheng on 2025-09-10.
 //
-//
-//  CheckOutView.swift
-//  169 Juice Cashir App
-//
-//  Created by Jacky Zheng on 2025-09-10.
-//
 
 import SwiftUI
 
@@ -24,7 +18,7 @@ private extension Numeric {
     }
 }
 
-// MARK: - AddOn pretty print (optional)
+// MARK: - AddOn pretty print
 private extension Array where Element == AddOn {
     var pretty: String {
         guard !isEmpty else { return "No add-ons" }
@@ -38,8 +32,15 @@ struct CheckOutView: View {
     @Environment(\.dismiss) private var dismiss
 
     /// Provide this from the parent to navigate back to your Home flow.
-    /// Example: pop to root or switch tab so the user starts: Cup → Pineapple/Watermelon.
     var onAddMoreDrinks: (() -> Void)?
+
+    // Card fee: $1.00 per drink (quantity-aware)
+    private var totalQuantity: Int {
+        cart.items.reduce(0) { $0 + $1.quantity }
+    }
+    private let cardFeePerItem: Double = 1.00
+    private var cardSurcharge: Double { Double(totalQuantity) * cardFeePerItem }
+    private var cardTotal: Double { cart.total + cardSurcharge }
 
     var body: some View {
         VStack(spacing: 0) {
@@ -66,7 +67,6 @@ struct CheckOutView: View {
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button {
-                    // Let parent decide how to “go home”
                     onAddMoreDrinks?()
                 } label: {
                     Label("Add Drink", systemImage: "plus.circle")
@@ -76,19 +76,35 @@ struct CheckOutView: View {
 
             if !cart.items.isEmpty {
                 ToolbarItem(placement: .bottomBar) {
-                    Button {
-                        // Example: create Order snapshot and clear cart
-                        let order = cart.makeOrderSnapshot()
-                        print("Order placed:", order)
-                        cart.clear()
-                        // Optionally go back to home to start a new drink
-                        onAddMoreDrinks?()
-                    } label: {
-                        Text("Confirm • \(cart.total.money)")
-                            .fontWeight(.semibold)
+                    HStack(spacing: 12) {
+                        // Cash button
+                        Button {
+                            let order = cart.makeOrderSnapshot()
+                            print("Order placed (CASH):", order, "Total:", cart.total)
+                            cart.clear()
+                            onAddMoreDrinks?()
+                        } label: {
+                            Text("Cash • \(cart.total.money)")
+                                .fontWeight(.semibold)
+                                .frame(maxWidth: .infinity)
+                        }
+                        .buttonStyle(.borderedProminent)
+                        .accessibilityIdentifier("checkout_cash")
+
+                        // Card button (+$1 per drink surcharge)
+                        Button {
+                            let order = cart.makeOrderSnapshot()
+                            print("Order placed (CARD):", order, "Total:", cardTotal)
+                            cart.clear()
+                            onAddMoreDrinks?()
+                        } label: {
+                            Text("Card • \(cardTotal.money)")
+                                .fontWeight(.semibold)
+                                .frame(maxWidth: .infinity)
+                        }
+                        .buttonStyle(.borderedProminent)
+                        .accessibilityIdentifier("checkout_card")
                     }
-                    .buttonStyle(.borderedProminent)
-                    .accessibilityIdentifier("checkout_confirm")
                 }
             }
         }
@@ -124,17 +140,16 @@ struct CheckOutView: View {
     private var totalsBar: some View {
         VStack(spacing: 10) {
             HStack {
-                Text("Subtotal")
+                Text("Total (Cash)")
                 Spacer()
                 Text(cart.total.money)
+                    .font(.headline)
                     .monospacedDigit()
             }
-            Divider()
             HStack {
-                Text("Total")
-                    .font(.headline)
+                Text("Total (Card incl. $1/drink fee)")
                 Spacer()
-                Text(cart.total.money)
+                Text(cardTotal.money)
                     .font(.headline)
                     .monospacedDigit()
             }
@@ -153,7 +168,7 @@ private struct ItemRow: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            // Title: flavours + cup
+            // Title: flavours
             HStack(alignment: .firstTextBaseline) {
                 Text(item.drink.flavourList)
                     .font(.headline)
@@ -193,4 +208,3 @@ private struct ItemRow: View {
         .padding(.vertical, 6)
     }
 }
-
