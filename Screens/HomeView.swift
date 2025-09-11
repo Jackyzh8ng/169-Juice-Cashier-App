@@ -23,62 +23,63 @@ struct HomeView: View {
 
     var body: some View {
         NavigationStack(path: $path) {
-            VStack(spacing: 20) {
+            // ⬇️ Make the whole screen vertically scrollable
+            ScrollView(.vertical) {
+                VStack(spacing: 20) {
 
-                // CUP -> FlavourSelect -> AddOns -> Build
-                NavigationLink {
-                    FlavourSelectView(
-                        selected: $selectedFlavours,
-                        onNext: { flavours in
-                            path.append(.addOns(flavours: flavours, cup: .cup, flavoursLocked: false))
-                        }
-                    )
-                    .navigationTitle("Pick Flavour(s)")
-                } label: {
-                    Label("Cup", systemImage: "cup.and.saucer")
-                        .font(.title)
-                        .frame(maxWidth: .infinity, minHeight: 120)
-                        .background(Color.blue)
-                        .foregroundColor(.white)
-                        .cornerRadius(20)
+                    // CUP -> FlavourSelect -> AddOns -> Build
+                    NavigationLink {
+                        FlavourSelectView(
+                            selected: $selectedFlavours,
+                            onNext: { flavours in
+                                path.append(.addOns(flavours: flavours, cup: .cup, flavoursLocked: false))
+                            }
+                        )
+                        .navigationTitle("Pick Flavour(s)")
+                    } label: {
+                        Label("Cup", systemImage: "cup.and.saucer")
+                            .font(.title)
+                            .frame(maxWidth: .infinity, minHeight: 120)
+                            .background(Color.blue)
+                            .foregroundColor(.white)
+                            .cornerRadius(20)
+                    }
+
+                    // PINEAPPLE -> FlavourSelect -> AddOns -> Build
+                    NavigationLink {
+                        FlavourSelectView(
+                            selected: $selectedFlavours,
+                            onNext: { flavours in
+                                path.append(.addOns(flavours: flavours, cup: .pshell, flavoursLocked: false))
+                            }
+                        )
+                        .navigationTitle("Pick Flavour(s)")
+                    } label: {
+                        Label("Pineapple Shell", systemImage: "leaf")
+                            .font(.title)
+                            .frame(maxWidth: .infinity, minHeight: 120)
+                            .background(Color.yellow)
+                            .foregroundColor(.white)
+                            .cornerRadius(20)
+                    }
+
+                    // WATERMELON -> AddOns -> Build
+                    Button {
+                        path.append(.addOns(flavours: [.watermelon], cup: .wshell, flavoursLocked: true))
+                    } label: {
+                        Label("Watermelon Shell", systemImage: "leaf.fill")
+                            .font(.title)
+                            .frame(maxWidth: .infinity, minHeight: 120)
+                            .background(Color.green)
+                            .foregroundColor(.white)
+                            .cornerRadius(20)
+                    }
+
+                    // ===== Presets (vertical) =====
+                    presetsSection
                 }
-
-                // PINEAPPLE -> FlavourSelect -> AddOns -> Build
-                NavigationLink {
-                    FlavourSelectView(
-                        selected: $selectedFlavours,
-                        onNext: { flavours in
-                            path.append(.addOns(flavours: flavours, cup: .pshell, flavoursLocked: false))
-                        }
-                    )
-                    .navigationTitle("Pick Flavour(s)")
-                } label: {
-                    Label("Pineapple Shell", systemImage: "leaf")
-                        .font(.title)
-                        .frame(maxWidth: .infinity, minHeight: 120)
-                        .background(Color.yellow)
-                        .foregroundColor(.white)
-                        .cornerRadius(20)
-                }
-
-                // WATERMELON -> AddOns -> Build
-                Button {
-                    path.append(.addOns(flavours: [.watermelon], cup: .wshell, flavoursLocked: true))
-                } label: {
-                    Label("Watermelon Shell", systemImage: "leaf.fill")
-                        .font(.title)
-                        .frame(maxWidth: .infinity, minHeight: 120)
-                        .background(Color.green)
-                        .foregroundColor(.white)
-                        .cornerRadius(20)
-                }
-
-                // ===== Presets bar =====
-                presetsBar
-
-                Spacer(minLength: 0)
+                .padding()
             }
-            .padding()
             .navigationTitle("169 Juice")
             .navigationDestination(for: Route.self) { route in
                 switch route {
@@ -117,10 +118,10 @@ struct HomeView: View {
         .sheet(isPresented: $showAddPreset, content: newPresetSheet)
     }
 
-    // MARK: - Presets UI
+    // MARK: - Presets (vertical grid)
 
-    private var presetsBar: some View {
-        VStack(alignment: .leading, spacing: 10) {
+    private var presetsSection: some View {
+        VStack(alignment: .leading, spacing: 12) {
             HStack {
                 Text("Presets").font(.headline)
                 Spacer()
@@ -131,23 +132,23 @@ struct HomeView: View {
                 }
             }
 
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 10) {
-                    ForEach(presetStore.presets) { p in
-                        Button {
-                            addPresetToCartAndCheckout(p)
-                        } label: {
-                            Text(p.name)
-                                .font(.subheadline.weight(.semibold))
-                                .padding(.horizontal, 12)
-                                .padding(.vertical, 8)
-                                .background(Color.secondary.opacity(0.15), in: Capsule())
-                        }
-                        .buttonStyle(.plain)
-                        .accessibilityIdentifier("preset_\(p.id.uuidString)")
+            // 2-column grid that grows vertically (scrolls down with the page)
+            let columns = [GridItem(.flexible(), spacing: 10), GridItem(.flexible(), spacing: 10)]
+            LazyVGrid(columns: columns, spacing: 10) {
+                ForEach(presetStore.presets) { p in
+                    Button {
+                        addPresetToCartAndCheckout(p)
+                    } label: {
+                        Text(p.name)
+                            .font(.subheadline.weight(.semibold))
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(.horizontal, 12)
+                            .padding(.vertical, 10)
+                            .background(Color.secondary.opacity(0.15), in: RoundedRectangle(cornerRadius: 14))
                     }
+                    .buttonStyle(.plain)
+                    .accessibilityIdentifier("preset_\(p.id.uuidString)")
                 }
-                .padding(.vertical, 4)
             }
         }
     }
@@ -190,16 +191,14 @@ struct HomeView: View {
                 }
                 Section {
                     Button {
-                        // If no flavours, show alert and bail
                         guard newFlavours.isEmpty == false else {
                             showPresetValidationAlert = true
                             return
                         }
-                        // If name left blank, auto-generate from selections
                         let trimmed = newName.trimmingCharacters(in: .whitespacesAndNewlines)
-                        let finalName = trimmed.isEmpty ? autoName(cup: newCup,
-                                                                   flavours: Array(newFlavours),
-                                                                   addOns: Array(newAddOns)) : trimmed
+                        let finalName = trimmed.isEmpty
+                        ? autoName(cup: newCup, flavours: Array(newFlavours), addOns: Array(newAddOns))
+                        : trimmed
 
                         let preset = Preset(name: finalName,
                                             cup: newCup,
