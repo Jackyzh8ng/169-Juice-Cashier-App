@@ -23,6 +23,9 @@
 		9B8685FF2E72257E00486774 /* FestivalWeek.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B8685FE2E72257900486774 /* FestivalWeek.swift */; };
 		9B8686012E7225A200486774 /* Sale.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B8686002E7225A000486774 /* Sale.swift */; };
 		9B8686042E7225F800486774 /* SalesStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B8686032E7225F500486774 /* SalesStore.swift */; };
+		9B8686972E73332000486774 /* Preset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B8686962E73331800486774 /* Preset.swift */; };
+		9B8686992E7336A100486774 /* PresetStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B8686982E73369F00486774 /* PresetStore.swift */; };
+		9B86869B2E73372300486774 /* Pricing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B86869A2E73371D00486774 /* Pricing.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,6 +65,9 @@
 		9B8685FE2E72257900486774 /* FestivalWeek.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FestivalWeek.swift; sourceTree = "<group>"; };
 		9B8686002E7225A000486774 /* Sale.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sale.swift; sourceTree = "<group>"; };
 		9B8686032E7225F500486774 /* SalesStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SalesStore.swift; sourceTree = "<group>"; };
+		9B8686962E73331800486774 /* Preset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preset.swift; sourceTree = "<group>"; };
+		9B8686982E73369F00486774 /* PresetStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresetStore.swift; sourceTree = "<group>"; };
+		9B86869A2E73371D00486774 /* Pricing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pricing.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -157,6 +163,7 @@
 		9B8685DD2E70CFC800486774 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				9B8686962E73331800486774 /* Preset.swift */,
 				9B8685EF2E71EE0700486774 /* CartStore.swift */,
 				9B8685ED2E71EDA500486774 /* OrderItem.swift */,
 				9B8685E32E70DBF700486774 /* Order.swift */,
@@ -167,6 +174,7 @@
 		9B8685DE2E70CFCE00486774 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				9B86869A2E73371D00486774 /* Pricing.swift */,
 				9B8685F62E72009900486774 /* GoToCheckoutEnv.swift */,
 				9B8685F32E71FDAE00486774 /* AddOnsScreen.swift */,
 			);
@@ -183,6 +191,7 @@
 		9B8686022E7225CD00486774 /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				9B8686982E73369F00486774 /* PresetStore.swift */,
 				9B8686032E7225F500486774 /* SalesStore.swift */,
 				9B8685FE2E72257900486774 /* FestivalWeek.swift */,
 				9B8686002E7225A000486774 /* Sale.swift */,
@@ -338,6 +347,7 @@
 				9B8686042E7225F800486774 /* SalesStore.swift in Sources */,
 				9B8685E62E70E24800486774 /* Order.swift in Sources */,
 				9B8685E22E70D41100486774 /* StatsView.swift in Sources */,
+				9B8686992E7336A100486774 /* PresetStore.swift in Sources */,
 				9B8685EE2E71EDAA00486774 /* OrderItem.swift in Sources */,
 				9B8685FD2E72256500486774 /* PaymentMethod.swift in Sources */,
 				9B8685F02E71EE0A00486774 /* CartStore.swift in Sources */,
@@ -345,9 +355,11 @@
 				9B8685F72E7200A200486774 /* GoToCheckoutEnv.swift in Sources */,
 				9B8685E02E70D19E00486774 /* HomeView.swift in Sources */,
 				9B8685F42E71FDB300486774 /* AddOnsScreen.swift in Sources */,
+				9B8686972E73332000486774 /* Preset.swift in Sources */,
 				9B8685F22E71F62A00486774 /* BuildDrinkView.swift in Sources */,
 				9B8686012E7225A200486774 /* Sale.swift in Sources */,
 				9B8685FF2E72257E00486774 /* FestivalWeek.swift in Sources */,
+				9B86869B2E73372300486774 /* Pricing.swift in Sources */,
 				9B8685E52E70E18000486774 /* FlavourSelectView.swift in Sources */,
 				9B8685EC2E71D96900486774 /* CheckOutView.swift in Sources */,
 				9B8685AB2E70CE4600486774 /* _69_Juice_Cashir_AppApp.swift in Sources */,
